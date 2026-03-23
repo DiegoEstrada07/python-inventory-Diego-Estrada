@@ -34,7 +34,89 @@ class PerishableProduct(Product):
         print(f"Expiration Date: {self.expiration_date}")
 
 
-FILE_NAME = "inventory.txt"
+FILE_NAME = "inventory.txt" 
+
+def load_inventory():
+    global current_id
+    if os.path.exists(FILE_NAME):
+        with open(FILE_NAME, "r") as file:
+            for line in file:
+                data = line.strip().split(",")
+                if len(data) >= 6:
+                    pid = int(data[0])
+                    name = data[1]
+                    brand = (data[2],)
+                    category = data[3]
+                    price = float(data[4])
+                    quantity = int(data[5])
+
+                    product = Product(name, price, quantity, brand, category, pid)
+                    inventory[name] = product
+                    product_ids.add(pid)
+                    current_id = max(current_id, pid)
+
+def save_inventory():
+    with open(FILE_NAME, "w") as file:
+        for product in inventory.values():
+            file.write(f"{product.product_id},{product.name},{product.brand[0]},{product.category},{product.price},{product.quantity}\n")
+
+def add_item():
+    global current_id
+
+    name = input("Enter product name: > ").strip()
+
+    print(f"Enter category (Electronics, Home, Office):", end="")
+    category = input(" > ").strip()
+
+    if category not in categories:
+        print("Invalid category. Defaulting to 'Office'.")
+        category = "Office"
+
+    brand_input = input("Enter brand name: > ").strip()
+    brand = (brand_input,)  # tuple
+
+    quantity = int(input("Enter quantity: > "))
+    price = float(input("Enter price: > "))
+
+    current_id += 1
+    product_ids.add(current_id)
+
+    product = Product(name, price, quantity, brand, category, current_id)
+    inventory[name] = product
+
+    print("\nItem added successfully!\n")
+
+def view_inventory():
+    print("\nCurrent Inventory:")
+    print("--------------------")
+
+    if not inventory:
+        print("Inventory is empty.")
+        return
+
+    for product in inventory.values():
+        product.display()
+        print()
+
+def update_item():
+    name = input("Enter product name to update: > ").strip()
+
+    if name in inventory:
+        new_quantity = int(input("Enter new quantity: > "))
+        inventory[name].update_quantity(new_quantity)
+        print("\nInventory updated successfully!\n")
+    else:
+        print("Item not found.\n")
+
+def remove_item():
+    name = input("Enter product name to remove: > ").strip()
+
+    if name in inventory:
+        product_ids.discard(inventory[name].product_id)
+        del inventory[name]
+        print("\nItem removed successfully!\n")
+    else:
+        print("Item not found.\n")
 
 def main():
     load_inventory()
