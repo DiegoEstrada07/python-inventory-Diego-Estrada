@@ -85,6 +85,7 @@ def add_item():
     inventory[name] = product
 
     print("\nItem added successfully!\n")
+    print("\n===========================================")
 
 def view_inventory():
     print("\nCurrent Inventory:")
@@ -97,6 +98,7 @@ def view_inventory():
     for product in inventory.values():
         product.display()
         print()
+    print("\n===========================================")
 
 def update_item():
     name = input("Enter product name to update: > ").strip()
@@ -107,6 +109,7 @@ def update_item():
         print("\nInventory updated successfully!\n")
     else:
         print("Item not found.\n")
+    print("\n===========================================")
 
 def remove_item():
     name = input("Enter product name to remove: > ").strip()
@@ -117,6 +120,7 @@ def remove_item():
         print("\nItem removed successfully!\n")
     else:
         print("Item not found.\n")
+    print("\n===========================================")
 
 def main():
     load_inventory()
