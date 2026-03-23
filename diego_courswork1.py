@@ -35,3 +35,35 @@ class PerishableProduct(Product):
 
 
 FILE_NAME = "inventory.txt"
+
+def main():
+    load_inventory()
+
+    while True:
+        print("Welcome to the Inventory Management System!")
+        print("===========================================")
+        print("1. Add Item")
+        print("2. View Inventory")
+        print("3. Update Item")
+        print("4. Remove Item")
+        print("5. Exit")
+
+        choice = input("Select an option: > ").strip()
+
+        if choice == "1":
+            add_item()
+        elif choice == "2":
+            view_inventory()
+        elif choice == "3":
+            update_item()
+        elif choice == "4":
+            remove_item()
+        elif choice == "5":
+            save_inventory()
+            print("Exiting system. \nGoodbye!")
+            break
+        else:
+            print("Invalid option. Please try again.\n")
+
+if __name__ == "__main__":
+    main()
